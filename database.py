@@ -40,7 +40,7 @@ def print_database():
             # Create a cursor object to execute SQL commands
             cursor = conn.cursor()
             # Execute a SELECT query to retrieve all rows from the table
-            cursor.execute("SELECT * FROM users")
+            cursor.execute("SELECT * FROM users WHERE ID = 2")
             # Fetch all rows from the result set
             rows = cursor.fetchall()
             # Print the rows
