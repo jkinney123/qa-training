@@ -1,5 +1,4 @@
 modules = ["python-3.11"]
-run = "run"
 [nix]
 channel = "stable-24_05"
 

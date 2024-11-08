@@ -22,3 +22,29 @@ def create_database():
             conn.close()
 
             print("SQLite database created successfully!")
+
+
+def create_user():
+            conn = sqlite3.connect('mydatabase.db')
+            c = conn.cursor()
+            c.execute("INSERT INTO users (name, age) VALUES (?, ?)",
+                      ('Alice', 30))
+
+            conn.commit()
+            conn.close()
+
+
+def print_database():
+            # Create a connection to the database
+            conn = sqlite3.connect('mydatabase.db')
+            # Create a cursor object to execute SQL commands
+            cursor = conn.cursor()
+            # Execute a SELECT query to retrieve all rows from the table
+            cursor.execute("SELECT * FROM users")
+            # Fetch all rows from the result set
+            rows = cursor.fetchall()
+            # Print the rows
+            for row in rows:
+                        print(row)
+            # Close the connection
+            conn.close()
