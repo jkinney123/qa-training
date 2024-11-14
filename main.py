@@ -1,28 +1,42 @@
-import random
+import database
 
-guesses_made = 0
+database_1 = "database_1"
+database_2 = "database_2"
 
-name = input('Hello! What is your name?\n')
+print('Making sure the two databases exist:')
+database.create_database(database_1)
+database.create_database(database_2)
 
-number = random.randint(1, 20)
-print ('Well, {0}, I am thinking of a number between 1 and 20.'.format(name))
+print('\nRemoving existing data from databases.')
+database.delete_users_from_user_table(database_1)
+database.delete_users_from_user_table(database_2)
 
-while guesses_made < 6:
+print('\nLets create some users in Database 1:')
+database.create_user('Tom', 19, database_1)
+database.create_user('Jerry', 25, database_1)
+database.create_user('Gerald', 44, database_1)
+database.print_database(database_1)
 
-    guess = int(input('Take a guess: '))
+print('\nExtract (E): Storing data read from Database')
+all_users_in_1 = database.get_user_table(database_1)
 
-    guesses_made += 1
+print('Data extracted- this is stored in a Python variable now:')
+print(all_users_in_1)
 
-    if guess < number:
-        print ('Your guess is too low.')
+print('\nTransform (T): Transforming the Data')
+transformed_users = []
+for user in all_users_in_1:
+    # user[0] we don't need to use this for now
+    transformed_users.append((user[1].upper(), user[2] + 10))
+transformed_users.append(('JOHN', 44))
+print('Now that we have transformed the data, lets take a look:')
+print(transformed_users)
 
-    if guess > number:
-        print ('Your guess is too high.')
+print('\nLoad (L): Uploading transformed data to new Database')
+for user in transformed_users:
+    database.create_user(user[0], user[1], database_2)
+print(f'Printing contents of {database_2}')
+print(database.get_user_table(database_2))
 
-    if guess == number:
-        break
 
-if guess == number:
-    print ('Good job, {0}! You guessed my number in {1} guesses!'.format(name, guesses_made))
-else:
-    print ('Nope. The number I was thinking of was {0}'.format(number))
+print('\nCongratulations! You have performed ETL between two databases.')
