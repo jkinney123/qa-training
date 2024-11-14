@@ -43,5 +43,8 @@ print(database.get_user_table(database_2))
 print('\nRemoving TOM from Database 2 before loading data.')
 database.delete_user('TOM', database_2)
 
+print(f'Printing contents of {database_2}')
+print(database.get_user_table(database_2))
+
 
 print('\nCongratulations! You have performed ETL between two databases.')
