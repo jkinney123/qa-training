@@ -32,6 +32,9 @@ transformed_users.append(('JOHN', 44))
 print('Now that we have transformed the data, lets take a look:')
 print(transformed_users)
 
+print('\nRemoving TOM from Database 2 before loading data.')
+database.delete_user('TOM', database_2)
+
 print('\nLoad (L): Uploading transformed data to new Database')
 for user in transformed_users:
     database.create_user(user[0], user[1], database_2)
