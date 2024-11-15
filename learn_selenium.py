@@ -6,7 +6,7 @@ options = Options()
 options.add_argument('--headless')  # Enable headless mode
 
 # Optional: If geckodriver is not in your PATH
-service = Service(executable_path='C:\Users\joeki\Drivers\geckodriver.exe')
+service = Service(executable_path=r'C:\Users\joeki\Drivers\geckodriver.exe')
 
 driver = webdriver.Firefox(options=options)  # Or with service: driver = webdriver.Firefox(service=service, options=options)
 
