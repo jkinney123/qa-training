@@ -2,5 +2,6 @@
   deps = [
     pkgs.sqlite
     pkgs.python311Packages.selenium
+    pkgs.firefox-geckodriver 
   ];
 }
