@@ -7,17 +7,15 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.python311
-    pkgs.chromium
+    pkgs.python311Packages.pip
     pkgs.firefox
-    pkgs.geckodriver 
-    pkgs.python311Packages.selenium
-    pkgs.python311Packages.pytest
+    pkgs.geckodriver
+    # Remove pkgs.python311Packages.selenium and pkgs.python311Packages.pytest
   ];
 
   # Sets environment variables in the workspace
   env = {};
   idx = {
-    # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       # "vscodevim.vim"
     ];
@@ -38,18 +36,20 @@
         # };
       };
     };
-
     # Workspace lifecycle hooks
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
+        create-venv = ''
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+        '';
       };
       # Runs when the workspace is (re)started
       onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        # Optionally, activate the virtual environment on start
+        activate-venv = "source .venv/bin/activate";
       };
     };
   };
