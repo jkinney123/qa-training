@@ -5,13 +5,22 @@
   channel = "stable-24.05"; # or "unstable"
 
   # Use https://search.nixos.org/packages to find packages
-  packages = [
+  packages = let
+    geckodriverVersion = "0.35.0";
+    geckodriver = pkgs.geckodriver.overrideAttrs (oldAttrs: {
+      version = geckodriverVersion;
+      src = pkgs.fetchurl {
+        url = "https://github.com/mozilla/geckodriver/releases/download/v${geckodriverVersion}/geckodriver-v${geckodriverVersion}-linux64.tar.gz";
+        sha256 = "0cavjh1pxxgd44q0mshjhh19gcdkmiyknr9zybifj0zn0w6m1dxp";
+      };
+    });
+  in [
     pkgs.python311
     pkgs.python311Packages.pip
     pkgs.firefox
-    pkgs.geckodriver
-    # Remove pkgs.python311Packages.selenium and pkgs.python311Packages.pytest
+    geckodriver
   ];
+
 
   # Sets environment variables in the workspace
   env = {};

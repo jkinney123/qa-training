@@ -1,0 +1,92 @@
+<html><head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-62SJM8WGQG&amp;l=dataLayer&amp;cx=c&amp;gtm=457e4be0za200"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-38578610-11"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-38578610-11');
+    </script>
+    
+    <title>Cart Items</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" rel="stylesheet">
+    <link href="/static/css/ws_style.css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="https://checkout.stripe.com/v3/checkout/button-qpwW2WfkB0oGWVWIASjIOQ.css"></head>
+
+<body>
+
+    
+
+<div class="container top-space-50">
+    <div class="row justify-content-center">
+        <h2>Checkout</h2>
+        <span class="octicon octicon-info" data-toggle="popover" title="" data-content="Verify that the shopping cart looks correct. Then, fill out your payment details and submit the form. You can Google for 'Stripe test card numbers' to use valid cards. Note: The payment screen will error 5% of the time by design" data-original-title="Your task"></span>
+    </div>
+    <div class="row justify-content-center top-space-50">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>Vassily Aloe Attack</td>
+                    <td>199</td>
+                </tr>
+                
+                <tr>
+                    <td>Boris Almond and Honey</td>
+                    <td>128</td>
+                </tr>
+                
+            </tbody>
+        </table>
+        <p class="justify-content-center h4 top-space-20" id="total">Total: Rupees 327</p>
+    </div>
+    <div class="row top-space-30">
+        <!--Src: https://stripe.com/docs/quickstart
+        Any random, syntactically valid email address (the more random, the better)
+        One of Stripe’s test card numbers, such as 4242 4242 4242 4242
+        Any three-digit CVC code
+        Any expiration date in the future
+        Any billing ZIP code, such as 12345
+        -->
+        <form action="/confirmation" method="POST">
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button active" data-key="pk_test_TYooMQauvdEDq54NiTphI7jx" data-amount="32700" data-name="Stripe.com" data-currency="INR" data-description="Example charge" data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="auto" data-zip-code="true">
+            </script><button type="submit" class="stripe-button-el" style="visibility: visible;"><span style="display: block; min-height: 30px;">Pay with Card</span></button>
+          </form>
+    </div>
+</div>
+
+
+
+    <div class="row justify-content-center top-space-50">
+        <p class="ws_copyright">
+            
+                <a href="/about">About</a>
+            
+            &nbsp;&nbsp; © <a href="https://qxf2.com/?utm_source=footer&amp;utm_medium=click&amp;utm_campaign=Weather%20shopper">
+                Qxf2 Services</a> 2018 -
+            <script>document.write(new Date().getFullYear())</script>2024
+            
+        </p>
+    </div>
+    
+
+    <!--START OF JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="/static/js/ws_common.js"></script>
+
+
+<iframe frameborder="0" allowtransparency="true" style="z-index: 2147483647; display: block; background: rgba(0, 0, 0, 0.005); border: 0px transparent; overflow: hidden auto; visibility: visible; margin: 0px; padding: 0px; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%;" src="https://checkout.stripe.com/v3/82u6Z5A5MLNC2LtLYKXrWQ.html?distinct_id=a1e797be-23fa-9aa7-9195-92180d546921" name="stripe_checkout_app" class="stripe_checkout_app"></iframe></body></html>
