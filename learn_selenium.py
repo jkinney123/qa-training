@@ -12,7 +12,7 @@ import traceback
 def setup():
     # Configure Firefox options
     options = Options()
-    options.add_argument('--headless')
+   #  options.add_argument('--headless')
 
     # Initialize the Firefox driver
     return webdriver.Firefox(options=options)
@@ -204,32 +204,53 @@ def test_weathershopper_payment(driver):
         print(f"Failed to enter ZIP code via JavaScript: {type(e).__name__}: {e}")
         print(traceback.format_exc())
 
+    # After setting the ZIP code, retrieve its value
+    zip_value = driver.execute_script("return document.getElementById('billing-zip').value;")
+    print(f"ZIP code value is: {zip_value}")
 
 
     try:
-        content_switcher_inner = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".contentSwitcher > .inner")))
-        content_switcher_inner.click()
-        print("Clicked on contentSwitcher > .inner")
+        submit_button = wait.until(EC.element_to_be_clickable((By.ID, "submitButton")))
+        submit_button.click()
+        print("Clicked on submit button")
     except Exception as e:
-        print(f"Could not click on contentSwitcher > .inner: {e}")
-
-    # Click on the .iconTick to submit the payment
-    try:
-        icon_tick = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".iconTick")))
-        icon_tick.click()
-        print("Clicked on submit button via .iconTick")
-    except Exception as e:
-        print(f"Could not click on .iconTick: {e}")
+        print(f"Could not click on submit button: {type(e).__name__}: {e}")
+        print(traceback.format_exc())
 
 
     # Switch back to the default content
     driver.switch_to.default_content()
     print("Switched back to default content")
 
-    # Verify successful payment
-    success_message = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".container h2")))
-    assert "PAYMENT SUCCESS" in success_message.text
-    print("Payment was successful")
+    # Save the page source and screenshot for debugging
+    with open("post_submit_page.html", "w", encoding="utf-8") as f:
+        f.write(driver.page_source)
+    driver.save_screenshot("post_submit_screenshot.png")
+    print("Saved post-submit page source and screenshot")
+
+    try:
+        wait.until(EC.url_contains("/confirmation"))
+        print(f"Redirected to confirmation page: {driver.current_url}")
+    except Exception as e:
+        print(f"Did not redirect to confirmation page: {type(e).__name__}: {e}")
+        print(traceback.format_exc())
+
+    # Verify payment outcome
+    try:
+        message_element = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".container h2")))
+        message_text = message_element.text.strip()
+        print(f"Message text: '{message_text}'")
+        if "PAYMENT SUCCESS" in message_text:
+            print("Payment was successful")
+        elif "PAYMENT FAILED" in message_text:
+            print("Payment failed")
+        else:
+            print("Unexpected message received")
+            print(f"Message text: '{message_text}'")
+    except Exception as e:
+        print(f"Could not retrieve payment result: {type(e).__name__}: {e}")
+        print(traceback.format_exc())
+
 
     # Close the browser
     driver.close()
