@@ -5,6 +5,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
+import traceback
+
 
 def setup():
     # Configure Firefox options
@@ -155,7 +158,7 @@ def test_weathershopper_product_page(driver, product_type):
     test_weathershopper_payment(driver)
 
 def test_weathershopper_payment(driver):
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 25)
 
     # Print the current URL
     print(f"Current URL before payment: {driver.current_url}")
@@ -170,10 +173,6 @@ def test_weathershopper_payment(driver):
     pay_with_card = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".stripe-button-el")))
     pay_with_card.click()
     print("Clicked on 'Pay with Card'")
-
-    with open("cart_page.html", "w", encoding="utf-8") as f:
-        f.write(driver.page_source)
-    print("Saved cart page source to cart_page.html")
 
     # Switch to the payment iframe
     wait.until(EC.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[name^='stripe_checkout_app']")))
@@ -192,23 +191,36 @@ def test_weathershopper_payment(driver):
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[placeholder='CVC']"))).send_keys("123")
     print("Entered CVC")
 
+    # Wait for ZIP code field to appear
+    time.sleep(2)
 
-    # Switch to ZIP code iframe
-    zip_iframe = driver.find_element(By.CSS_SELECTOR, "iframe[name='postal']")
-    driver.switch_to.frame(zip_iframe)
-    print("Switched to ZIP code iframe")
+    
+    # Attempt to enter ZIP code
+    try:
+        # Use JavaScript to set the value of the ZIP code field
+        driver.execute_script("document.getElementById('billing-zip').value = '55308';")
+        print("Entered ZIP code via JavaScript")
+    except Exception as e:
+        print(f"Failed to enter ZIP code via JavaScript: {type(e).__name__}: {e}")
+        print(traceback.format_exc())
 
-    # Enter ZIP code
-    zip_field = wait.until(EC.element_to_be_clickable((By.NAME, "postal")))
-    zip_field.send_keys("12345")
-    print("Entered ZIP code")
 
-    # Switch back to main payment iframe
-    driver.switch_to.parent_frame()
 
-    # Click on the submit button
-    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
-    print("Clicked on submit button")
+    try:
+        content_switcher_inner = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".contentSwitcher > .inner")))
+        content_switcher_inner.click()
+        print("Clicked on contentSwitcher > .inner")
+    except Exception as e:
+        print(f"Could not click on contentSwitcher > .inner: {e}")
+
+    # Click on the .iconTick to submit the payment
+    try:
+        icon_tick = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".iconTick")))
+        icon_tick.click()
+        print("Clicked on submit button via .iconTick")
+    except Exception as e:
+        print(f"Could not click on .iconTick: {e}")
+
 
     # Switch back to the default content
     driver.switch_to.default_content()

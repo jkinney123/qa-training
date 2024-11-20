@@ -5,26 +5,17 @@
   channel = "stable-24.05"; # or "unstable"
 
   # Use https://search.nixos.org/packages to find packages
-  packages = let
-    geckodriverVersion = "0.35.0";
-    geckodriver = pkgs.geckodriver.overrideAttrs (oldAttrs: {
-      version = geckodriverVersion;
-      src = pkgs.fetchurl {
-        url = "https://github.com/mozilla/geckodriver/releases/download/v${geckodriverVersion}/geckodriver-v${geckodriverVersion}-linux64.tar.gz";
-        sha256 = "0cavjh1pxxgd44q0mshjhh19gcdkmiyknr9zybifj0zn0w6m1dxp";
-      };
-    });
-  in [
+  packages = [
     pkgs.python311
     pkgs.python311Packages.pip
     pkgs.firefox
-    geckodriver
+    pkgs.geckodriver
   ];
-
 
   # Sets environment variables in the workspace
   env = {};
   idx = {
+    # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       # "vscodevim.vim"
     ];
@@ -45,6 +36,7 @@
         # };
       };
     };
+
     # Workspace lifecycle hooks
     workspace = {
       # Runs when a workspace is first created
@@ -57,8 +49,8 @@
       };
       # Runs when the workspace is (re)started
       onStart = {
-        # Optionally, activate the virtual environment on start
-        activate-venv = "source .venv/bin/activate";
+        # Example: start a background task to watch and re-build backend code
+        # watch-backend = "npm run watch-backend";
       };
     };
   };
