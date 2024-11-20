@@ -7,11 +7,9 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.python311
-    pkgs.chromium
+    pkgs.python311Packages.pip
     pkgs.firefox
-    pkgs.geckodriver 
-    pkgs.python311Packages.selenium
-    pkgs.python311Packages.pytest
+    pkgs.geckodriver
   ];
 
   # Sets environment variables in the workspace
@@ -43,8 +41,11 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
+        create-venv = ''
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+        '';
       };
       # Runs when the workspace is (re)started
       onStart = {
