@@ -35,7 +35,7 @@ User Story 2:
 As a user experiencing performance issues, I want to log in to the application without significant delays so that I can access the inventory and use the app efficiently.
 
 Test Case 2- 
-Objective: Verify that the login process is performant and does not cause unnecessary delays for the user.
+Objective: Verify that the login process performs smoothly and does not cause unnecessary delays for the user.
 
 Steps:
 1. Measure the login time for standard_user (baseline performance).
